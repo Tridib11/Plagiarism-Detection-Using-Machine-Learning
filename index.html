@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker</title>
+    <style>
+        .highlight.plagiarized {
+            background-color: red;
+        }
+        .highlight.original {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Plagiarism Checker</h1>
+    <textarea id="inputText" rows="10" cols="50"></textarea><br>
+    <button onclick="checkPlagiarism()">Check for Plagiarism</button>
+    <h2>Result:</h2>
+    <div id="result"></div>
+
+    <script>
+        async function checkPlagiarism() {
+            const inputText = document.getElementById('inputText').value;
+            const response = await fetch('http://127.0.0.1:5000/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: inputText })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerHTML = data.highlightedText;
+        }
+    </script>
+</body>
+</html>
